@@ -132,23 +132,25 @@ Spellcaster.prototype.spendMana = function(cost) {
 };
 
 Spellcaster.prototype.invoke = function(spell, target) {
-  //this.mana >= spell.cost
   if (spell === undefined || spell === null) {
-    return false;
+    return false;     // return false, ends the function
   }
-  if (spell instanceof DamageSpell && target instanceof Spellcaster) {
-    if (this.spendMana(spell.cost)) {
-      target.inflictDamage(spell.damage);
+  if (spell instanceof DamageSpell && target instanceof Spellcaster) { // if spell is Damage spell, target - Spellcaster
+    if (this.spendMana(spell.cost)) { // borrowing spendMana's function and using Spell's cost function (TEST THIS, CHANGED CAP S IN SPELL)
+      target.inflictDamage(spell.damage); // if ^^ is OK, target (Spellcaster) takes dmg, (TEST THIS, CHANGED CAP S IN SPELL)
       return true;
     }
   }
-  if (spell instanceof DamageSpell && !(target instanceof Spellcaster)) {
+  if (spell instanceof DamageSpell && !(target instanceof Spellcaster)) { // if spell is neither undefined/null/DamageSpell, it must be Spell, target IS NOT Spellcaster
     return false;
-  } else {
-    if (this.spendMana(spell.cost));
-    return false;
+  } else { // do I need this else statement? everything is taken care of in the first if statement,
+    if (this.spendMana(spell.cost)) {
+      return true;
+    }
   }
+  return false;
 };
+
   /**
    * @method invoke
    *
